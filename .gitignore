@@ -8,7 +8,6 @@
 *.o
 *.dll
 *.so
-*.a
 *.dylib
 
 # Ignore IDE and editor-specific files
