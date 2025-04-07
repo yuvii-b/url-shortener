@@ -1,0 +1,27 @@
+# Ignore build and output files
+/build/
+/bin/
+/out/
+*.exe
+*.out
+*.obj
+*.o
+*.dll
+*.so
+*.a
+*.dylib
+
+# Ignore IDE and editor-specific files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.ncb
+*.pss
+*.pdb
+*.opendb
+*.VC.db
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
