@@ -1,2 +1,2 @@
-db/libs/sqlite3.h linguist-detect=false
-db/libs/libsqlite3.a linguist-detect=false
+db/libs/sqlite3.h linguist-detectable=false
+db/libs/libsqlite3.a linguist-detectable=false
