@@ -1,5 +1,4 @@
-#ifndef HTTP_SERVER_HPP
-#define HTTP_SERVER_HPP
+#pragma once
 
 #include <iostream>
 #include <algorithm>
@@ -29,5 +28,3 @@ public:
     ~HTTPServer();
     void run();
 };
-
-#endif

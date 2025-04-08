@@ -1,5 +1,4 @@
-#ifndef URL_SHORTENER_HPP
-#define URL_SHORTENER_HPP
+#pragma once
 
 #include <unordered_map>
 #include <string>
@@ -13,5 +12,3 @@ class URLShortener{
         size_t shortenURL(const std::string &url);
         std::string getURL(size_t value); 
 };
-
-#endif
