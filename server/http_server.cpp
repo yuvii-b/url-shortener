@@ -1,6 +1,6 @@
 #include "http_server.hpp"
 
-HTTPServer::HTTPServer(int port){
+HTTPServer::HTTPServer(int port, const std::string &dbPath) : db(dbPath){
     addr_len = sizeof(address);
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (server_fd == -1){
@@ -62,8 +62,8 @@ std::string HTTPServer::handleFavicon(){
 
 std::string HTTPServer::generateResponse(const std::string &path){
     if (!path.empty() && std::all_of(path.begin(), path.end(), ::isdigit)) {
-        int number = std::stoi(path);
-        std::string url = (number % 2 == 0) ? "https://www.youtube.com" : "https://www.github.com"; 
+        size_t code = std::stoi(path);
+        std::string url = db.fetchURL(code);
         // The above url decider is just for testing purpose, it will be changed after implementing hashing of the long url
         std::stringstream response;
         // response << "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n" << path;

@@ -9,6 +9,7 @@ class Database{
         sqlite3* db;
         
     public:
+        Database(){}
         Database(const std::string &path);
         ~Database();
 
