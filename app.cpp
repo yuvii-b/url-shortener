@@ -2,18 +2,17 @@
 #include "shortener/url_shortener.hpp"
 #include "server/http_server.hpp"
 #include <iostream>
-#include <thread>
 
 int main(){
     URLShortener shortener;
     Database db("urls.db");
     db.createTable();
     std::cout << R"(
-            _   _ ____  _       ____  _   _  ___  ____ _____ _____ _   _ _____ ____
+             _   _ ____  _       ____  _   _  ___  ____ _____ _____ _   _ _____ ____
             | | | |  _ \| |     / ___|| | | |/ _ \|  _ \_   _| ____| \ | | ____|  _ \
             | | | | |_) | |     \___ \| |_| | | | | |_) || | |  _| |  \| |  _| | |_) |
             | |_| |  _ <| |___   ___) |  _  | |_| |  _ < | | | |___| |\  | |___|  _ <
-            \___/|_| \_\_____| |____/|_| |_|\___/|_| \_\|_| |_____|_| \_|_____|_| \_\
+             \___/|_| \_\_____| |____/|_| |_|\___/|_| \_\|_| |_____|_| \_|_____|_| \_\
     )" << std::endl;
     while(true){
         std::string url;
