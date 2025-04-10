@@ -9,27 +9,33 @@ DB_DIR = db
 SHORTENER_DIR = shortener
 SERVER_DIR = server
 
-# Source Files
-SRCS = app.cpp \
-       $(DB_DIR)/db.cpp \
-       $(SHORTENER_DIR)/url_shortener.cpp \
-       $(SERVER_DIR)/http_server.cpp
+# Final App
+APP_SRCS = app.cpp \
+           $(DB_DIR)/db.cpp \
+           $(SHORTENER_DIR)/url_shortener.cpp \
+           $(SERVER_DIR)/http_server.cpp
 
-# Object Files
-OBJS = $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(notdir $(SRCS)))
-
-# Target Executable
+APP_OBJS = $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(notdir $(APP_SRCS)))
 TARGET = url_app
 
-.PHONY: all clean
+# Server Module Test (standalone)
+SERVER_SRCS = $(SERVER_DIR)/http_server.cpp $(SERVER_DIR)/server_test.cpp $(DB_DIR)/db.cpp
+SERVER_OBJS = $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(notdir $(SERVER_SRCS)))
+SERVER_TARGET = server_app
 
+.PHONY: all clean server
+
+# Default: Build main app
 all: $(TARGET)
 
-# Rule to build the final executable
-$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET) $(LDFLAGS)
+$(TARGET): $(APP_OBJS)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
-# Rule to build object files
+# Server target with test main
+server: $(SERVER_OBJS)
+	$(CXX) $(CXXFLAGS) $^ -o $(SERVER_TARGET) $(LDFLAGS)
+
+# Object build rules (flattened into build/)
 $(BUILD_DIR)/%.o: $(DB_DIR)/%.cpp | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
@@ -44,8 +50,8 @@ $(BUILD_DIR)/%.o: %.cpp | $(BUILD_DIR)
 
 # Ensure build dir exists
 $(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
+	mkdir -p $@
 
-# Clean up
+# Clean everything
 clean:
-	rm -rf $(BUILD_DIR) $(TARGET)
+	rm -rf $(BUILD_DIR) $(TARGET) $(SERVER_TARGET)

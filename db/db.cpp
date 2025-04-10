@@ -13,7 +13,7 @@ Database::~Database(){
 
 void Database::createTable(){
     const char *query = R"(
-        CREATE TABLE IF NOT EXISTS urls(url TEXT NOT NULL, code INTEGER PRIMARY KEY NOT NULL);
+        CREATE TABLE IF NOT EXISTS urls(url TEXT NOT NULL UNIQUE, code INTEGER PRIMARY KEY NOT NULL);
     )";
     char *err = nullptr;
     if(sqlite3_exec(db, query, nullptr, nullptr, &err) != SQLITE_OK){
@@ -49,6 +49,10 @@ bool Database::storeURL(const std::string &url, size_t code){
         sqlite3_bind_int(stmt, 2, code);
         if (sqlite3_step(stmt) == SQLITE_DONE){
             sqlite3_finalize(stmt);
+            return true;
+        }
+        else if(sqlite3_step(stmt) == SQLITE_CONSTRAINT){
+            std::cerr << "⚠️ URL or Code already exists in the database." << std::endl;
             return true;
         }
         else{

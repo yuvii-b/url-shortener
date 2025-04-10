@@ -9,6 +9,7 @@
 *.dll
 *.so
 *.dylib
+*.db
 
 # Ignore IDE and editor-specific files
 .vscode/
