@@ -2,7 +2,7 @@
 /build/
 /bin/
 /out/
-./frontend/lib/
+./frontend/lib/Crow/
 *.exe
 *.out
 *.obj
