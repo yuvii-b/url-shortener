@@ -2,6 +2,7 @@
 /build/
 /bin/
 /out/
+./frontend/lib/
 *.exe
 *.out
 *.obj
