@@ -25,6 +25,10 @@ int main(){
             std::cout << "Exiting URL Shortener..." << std::endl;
             break;
         }
+        if (url.find("http://") != 0 && url.find("https://") != 0){
+            std::cout << "Entered URL is not absolute.. Must begin with http or https.." << std::endl;
+            break;
+        }
         size_t code = shortener.hashURL(url);
         if(!db.storeURL(url, code)) return -1;
         std::cout << "Shortened url: http://localhost:8080/" << code << std::endl;
