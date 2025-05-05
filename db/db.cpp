@@ -34,7 +34,7 @@ std::string Database::fetchURL(size_t code){
         }
     } 
     else{
-        std::cerr << "⚠️ Query failed: " << sqlite3_errmsg(db) << std::endl;
+        std::cerr << "Query failed: " << sqlite3_errmsg(db) << std::endl;
     }
     sqlite3_finalize(stmt);
     return URL;
@@ -52,15 +52,15 @@ bool Database::storeURL(const std::string &url, size_t code){
             return true;
         }
         else if(sqlite3_step(stmt) == SQLITE_CONSTRAINT){
-            std::cerr << "⚠️ URL or Code already exists in the database." << std::endl;
+            std::cerr << "URL or Code already exists in the database." << std::endl;
             return true;
         }
         else{
-            std::cerr << "⚠️ Insert failed: " << sqlite3_errmsg(db) << std::endl;
+            std::cerr << "Insert failed: " << sqlite3_errmsg(db) << std::endl;
         }
     }
     else{
-        std::cerr << "⚠️ Prepare failed: " << sqlite3_errmsg(db) << std::endl;
+        std::cerr << "Prepare failed: " << sqlite3_errmsg(db) << std::endl;
     }
     sqlite3_finalize(stmt);
     return false;

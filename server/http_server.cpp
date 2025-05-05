@@ -67,13 +67,6 @@ std::string HTTPServer::generateResponse(const std::string &path){
     if (!path.empty() && std::all_of(path.begin(), path.end(), ::isdigit)) {
         size_t code = std::stoi(path);
         std::string url = db.fetchURL(code);
-        if (url.find("http://") != 0 && url.find("https://") != 0) {
-            return "HTTP/1.1 400 Bad Request\r\n"
-                   "Content-Type: text/plain\r\n"
-                   "Content-Length: 20\r\n"
-                   "\r\n"
-                   "URL is not absolute.(URL starts with http or https)";
-        }
         std::stringstream response;
         response << "HTTP/1.1 307 Temporary Redirect\r\n"
                  << "Location: " << url << "\r\n"

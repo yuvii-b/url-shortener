@@ -23,8 +23,6 @@ std::string generate_short_url(const std::string &long_url){
 int main(){
 	crow::SimpleApp app;
 
-	// crow::mustache::set_base("./templates");
-
 	CROW_ROUTE(app, "/")([](){
 		return crow::response(load_file("frontend/templates/index.html"));
 	});
@@ -36,7 +34,7 @@ int main(){
 		if (long_url_pos == std::string::npos){
 			return crow::response(400, "Missing long URL");
 		}
-		long_url_pos += 5;  // Skip past "long="
+		long_url_pos += 5;
 		std::string long_url = body.substr(long_url_pos);
 		if(long_url.empty()){
 			return crow::response(400, "Long URL cannot be empty");
