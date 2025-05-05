@@ -44,8 +44,11 @@ void HTTPServer::handleClient(int client_fd){
 }
 
 std::string HTTPServer::extractPath(const std::string &request){
-    size_t start = request.find("GET ") + 4;
+    size_t start = request.find("GET ");
+    if (start == std::string::npos) return "HTTP/1.1 400 Bad Request\r\n...";
+    start += 4;
     size_t end = request.find(" ", start);
+    if (end == std::string::npos) return "HTTP/1.1 400 Bad Request\r\n...";
     std::string path = request.substr(start, end - start);
     if (path.size() > 1 && path[0] == '/') {
         path = path.substr(1);
@@ -64,9 +67,14 @@ std::string HTTPServer::generateResponse(const std::string &path){
     if (!path.empty() && std::all_of(path.begin(), path.end(), ::isdigit)) {
         size_t code = std::stoi(path);
         std::string url = db.fetchURL(code);
-        // The above url decider is just for testing purpose, it will be changed after implementing hashing of the long url
+        if (url.find("http://") != 0 && url.find("https://") != 0) {
+            return "HTTP/1.1 400 Bad Request\r\n"
+                   "Content-Type: text/plain\r\n"
+                   "Content-Length: 20\r\n"
+                   "\r\n"
+                   "URL is not absolute.(URL starts with http or https)";
+        }
         std::stringstream response;
-        // response << "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n" << path;
         response << "HTTP/1.1 307 Temporary Redirect\r\n"
                  << "Location: " << url << "\r\n"
                  << "Content-Length: 0\r\n"
