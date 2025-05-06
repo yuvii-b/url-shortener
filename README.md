@@ -58,28 +58,29 @@ Follow the steps below to set up the project:
 
 1. CLI TOOL:
 
-Follow these steps to build and run the URL Shortener application:
+    Follow these steps to build and run the URL Shortener application:
 
-1. **Build the server application**:
+    1. **Build the server application**:
 
-   ```bash
-   make server
-   ```
-2. **Build the main application**:
     ```bash
-    make
+    make server
     ```
-3. **Make the launcher script executable**:
-    ```bash
-    chmod +x run.sh
-    ```
-4. **Run the application**: 
-    ```bash
-    ./run.sh
-    ```
-The `run.sh` script will start both the server and the URL app, and it will monitor the server for crashes. If the server or app stops unexpectedly, both processes will be shut down.
+    2. **Build the main application**:
+        ```bash
+        make
+        ```
+    3. **Make the launcher script executable**:
+        ```bash
+        chmod +x run.sh
+        ```
+    4. **Run the application**: 
+        ```bash
+        ./run.sh
+        ```
+    The `run.sh` script will start both the server and the URL app, and it will monitor the server for crashes. If the server or app stops unexpectedly, both processes will be shut down.
 
-5. **After finishing, Clean everything**:
-    ```bash
-    make clean
-    ```
+    5. **After finishing, Clean everything**:
+        ```bash
+        make clean
+        ```
+            
