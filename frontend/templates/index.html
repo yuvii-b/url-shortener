@@ -1,31 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>URL Shortener</title>
+  <meta charset="UTF-8">
+  <title>URL Shortener</title>
+
+  <!-- Link to Google Fonts for Inter font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* Apply Inter font globally */
+    body {
+      font-family: 'Inter', sans-serif;  /* Apply Inter font */
+      background-color: #121212;
+      color: #ffffff;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .title {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #aaa;
+      margin-bottom: 1.5rem;
+      height: 1.2em;
+    }
+
+    .typing::after {
+      content: '|';
+      animation: blink 0.75s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: #1e1e1e;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+      width: 400px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 40px rgba(0, 255, 255, 0.2);
+    }
+
+    .input-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 0.7rem;
+      border-radius: 12px;
+      border: 1px solid #333;
+      background-color: #2a2a2a;
+      color: #fff;
+      outline: none;
+      font-family: inherit;
+      transition: border 0.3s ease;
+    }
+
+    input[type="text"]:hover,
+    input[type="text"]:focus {
+      border-color: #00ffff;
+    }
+
+    button {
+      padding: 0.7rem 1.2rem;
+      border: none;
+      background-color: #00bcd4;
+      color: white;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #0097a7;
+      transform: scale(1.05);
+    }
+
+    #resultContainer {
+      margin-top: 1.5rem;
+    }
+
+    #shortUrl {
+      display: inline-block;
+      margin-right: 0.5rem;
+      word-break: break-word;
+    }
+
+    #copyBtn {
+      padding: 0.4rem 0.8rem;
+      border: none;
+      background-color: #28a745;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    #copyBtn:hover {
+      background-color: #218838;
+      transform: scale(1.05);
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.7rem;
+      color: #777;
+    }
+  </style>
 </head>
 <body>
-    <h1>URL Shortener</h1>
-    <input type="text" id="longUrl" placeholder="Enter long URL">
-    <button onclick="shortenUrl()">Shorten</button>
+  <div class="title">URL Shortener</div>
+  <div class="subtitle"><span class="typing" id="subText"></span></div>
 
-    <p id="result"></p>
+  <div class="container">
+    <div class="card">
+      <div class="input-group">
+        <input type="text" id="longUrl" placeholder="Paste the link to reduce here!">
+        <button onclick="shortenUrl()">Shorten</button>
+      </div>
 
-    <script>
-        async function shortenUrl() {
-            const longUrl = document.getElementById("longUrl").value;
+      <div id="resultContainer" style="display:none;">
+        <p>
+          <span id="shortUrl"></span>
+          <button id="copyBtn" onclick="copyToClipboard()">Copy</button>
+        </p>
+      </div>
+    </div>
+  </div>
 
-            const res = await fetch("/shorten", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: `long=${encodeURIComponent(longUrl)}`
-            });
+  <div class="footer">Made for CS23201</div>
 
-            const shortUrl = await res.text();
-            document.getElementById("result").innerText = shortUrl;
-        }
-    </script>
+  <script>
+    // URL Shortener logic
+    async function shortenUrl() {
+      const longUrl = document.getElementById("longUrl").value;
+      const res = await fetch("/shorten", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `long=${encodeURIComponent(longUrl)}`
+      });
+      const shortUrl = await res.text();
+      document.getElementById("shortUrl").innerText = shortUrl;
+      document.getElementById("resultContainer").style.display = "block";
+    }
+
+    function copyToClipboard() {
+      const text = document.getElementById("shortUrl").innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard!");
+      });
+    }
+
+    // Subtitle typing animation
+    const phrases = [
+      "Made by Yuvaraj and Aravinth",
+      "Fast and Simple",
+      "Using C++"
+    ];
+    let phraseIndex = 0;
+    let subCharIndex = 0;
+    let deleting = false;
+    const subEl = document.getElementById("subText");
+
+    function animateSubtitle() {
+      const phrase = phrases[phraseIndex];
+      if (!deleting && subCharIndex <= phrase.length) {
+        subEl.textContent = phrase.substring(0, subCharIndex++);
+      } else if (deleting && subCharIndex >= 0) {
+        subEl.textContent = phrase.substring(0, subCharIndex--);
+      }
+
+      if (subCharIndex === phrase.length + 1) {
+        deleting = true;
+        setTimeout(animateSubtitle, 1000);
+        return;
+      } else if (subCharIndex < 0) {
+        deleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        setTimeout(animateSubtitle, 400);
+        return;
+      }
+
+      setTimeout(animateSubtitle, deleting ? 50 : 100);
+    }
+
+    animateSubtitle();
+  </script>
 </body>
 </html>
