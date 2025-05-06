@@ -27,7 +27,7 @@ int main(){
         }
         if (url.find("http://") != 0 && url.find("https://") != 0){
             std::cout << "Entered URL is not absolute.. Must begin with http or https.." << std::endl;
-            break;
+            continue;
         }
         size_t code = shortener.hashURL(url);
         if(!db.storeURL(url, code)) return -1;

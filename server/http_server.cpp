@@ -36,9 +36,9 @@ void HTTPServer::run(){
 void HTTPServer::handleClient(int client_fd){
     char buffer[BUFFER_SIZE] = {0};
     read(client_fd, buffer, BUFFER_SIZE);
-    std::cout << "Request:\n" << buffer << std::endl;
+    // std::cout << "Request:\n" << buffer << std::endl;
     std::string response = handleRequest(buffer);
-    std::cout << "Response:\n" << response << std::endl;
+    // std::cout << "Response:\n" << response << std::endl;
     send(client_fd, response.c_str(), response.length(), 0);
     close(client_fd);
 }
