@@ -54,7 +54,9 @@ int main(){
 		}
 		std::string short_url = generate_short_url(decoded_url);
 
-		return crow::response(short_url);
+		crow::response res(short_url);
+		res.add_header("Access-Control-Allow-Origin", "*"); // to prevent cors error
+		return res;
     });
 
 	app.port(4040).multithreaded().run();

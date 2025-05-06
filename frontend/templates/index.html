@@ -163,14 +163,28 @@
     // URL Shortener logic
     async function shortenUrl() {
       const longUrl = document.getElementById("longUrl").value;
-      const res = await fetch("/shorten", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `long=${encodeURIComponent(longUrl)}`
-      });
-      const shortUrl = await res.text();
-      document.getElementById("shortUrl").innerText = shortUrl;
-      document.getElementById("resultContainer").style.display = "block";
+      if(!longUrl){
+        alert("Please enter a URL.");
+        return;
+      }
+      try{
+            const res = await fetch("http://localhost:4040/shorten", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `long=${encodeURIComponent(longUrl)}`
+            });
+
+            if(!res.ok){
+                const errText = await res.text();
+                throw new Error("Server error: " + errText);
+            }
+        const shortUrl = await res.text();
+        document.getElementById("shortUrl").innerText = shortUrl;
+        document.getElementById("resultContainer").style.display = "block";
+        } catch(err){
+            console.error("Shorten failed:", err);
+            alert("Failed to shorten the URL. See console for details.");
+        }
     }
 
     function copyToClipboard() {
