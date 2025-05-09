@@ -8,14 +8,15 @@ A lightweight, terminal-based and web-based(using Crow-CPP) URL shortening servi
 - 🌐 HTTP server to redirect shortened URLs
 - 💾 SQLite-based database for persistent storage
 - 🖥️ Console UI for URL input and management
-- 🖥️ Web based UI for user friendly environmnet
+- 🖥️ Web based UI for user friendly environment
 - 🐧 Compatible with Linux via WSL (Windows Subsystem for Linux)
 
 ## How It Works
 
-1. User enters a URL in the console app.
-2. The app stores a hash of the URL in a SQLite database.
-3. An HTTP server listens on `localhost:8080` and redirects requests like `http://localhost:8080/123456` to the original URL.
+1. User enters a long URL via CLI or web UI.
+2. The URL is hashed and stored in a SQLite database.
+3. An HTTP server listens on `localhost:8080`.
+4. Requests to `http://localhost:8080/<shortcode>` are redirected to the original URL.
 
 ## Requirements
 
@@ -23,7 +24,7 @@ A lightweight, terminal-based and web-based(using Crow-CPP) URL shortening servi
 - `make`
 - `sqlite3`
 - Crow-cpp library
-- Linux or WSL on Windows
+- Linux or WSL (Windows Subsystem for Linux)
 
 ## Installation
 
@@ -58,9 +59,9 @@ Follow the steps below to set up the project:
 
 1. CLI TOOL:
 
-    Follow these steps to build and run the URL Shortener application:
+    Follow these steps to build and run the URL Shortener command line application:
 
-    1. **Build the server application**:
+    1. **Build the backend server application**:
 
     ```bash
     make server
@@ -79,8 +80,43 @@ Follow the steps below to set up the project:
         ```
     The `run.sh` script will start both the server and the URL app, and it will monitor the server for crashes. If the server or app stops unexpectedly, both processes will be shut down.
 
-    5. **After finishing, Clean everything**:
+    5. **After running, Clean everything**:
         ```bash
         make clean
         ```
-            
+2. FRONTEND TOOL (WEB UI):
+
+    Follow these steps to build and run the URL Shortener web-based application:
+
+     1. **Build the backend server application**:
+
+    ```bash
+    make server
+    ```
+
+    2. **Build the frontend server application**:
+        ```bash
+        make frontend
+        ```
+    3. **Run both servers (in separate terminals) for capturing logs**
+        ```bash
+        ./server_app
+        ./frontend_app
+        ```
+    4. **Open the webpage in browser**
+        Navigate to `index.html` and hit 'go live' in vscode(if installed) or simply open the file in any browser
+    5. **After running, Clean everything**:
+        ```bash
+        make clean
+        ``` 
+
+### License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## 👥 Contributors
+
+- **Yuvaraj B** – [@yuvii-b](https://github.com/yuvii-b)
+- **Aravinth K** – [@bored-arvi](https://github.com/bored-arvi)
+
+> Want to contribute? Refer [contribution guidelines](CONTRIBUTING.md)!
