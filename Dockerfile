@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add --no-cache g++ make sqlite-dev boost-dev asio-dev
+RUN apk add --no-cache g++ make sqlite-dev boost-dev asio-dev python3
 
 WORKDIR /app
 
