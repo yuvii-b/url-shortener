@@ -59,6 +59,6 @@ int main(){
 		return res;
     });
 
-	app.port(4040).multithreaded().run();
+	app.port(4040).bindaddr("0.0.0.0").multithreaded().run();
 	return 0;
 }
