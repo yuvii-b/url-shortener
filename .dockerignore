@@ -1,0 +1,15 @@
+*.o
+*.out
+*.exe
+calc
+build/
+server_app
+client_app
+
+.git/
+.gitignore
+*.swp
+*.bak
+*.log
+
+Dockerfile.*
