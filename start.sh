@@ -9,9 +9,13 @@ cleanup(){
 trap cleanup INT TERM
 
 ./server_app &
-HTTP_PID = $!
+
 ./frontend_app &
-CROW_PID = $!
+
+cd frontend/templates
+python3 -m http.server 5500 --bind 0.0.0.0 &
+cd ..
+cd ..
 
 exec /bin/sh
 
